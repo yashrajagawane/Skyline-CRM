@@ -28,7 +28,7 @@ public class SecurityConfiguration {
       .addFilterBefore(jwt, UsernamePasswordAuthenticationFilter.class).build();
   }
   @Bean CorsConfigurationSource corsConfigurationSource(@Value("${app.cors.allowed-origins}") String allowedOrigins) {
-    CorsConfiguration configuration = new CorsConfiguration(); configuration.setAllowedOrigins(List.of(allowedOrigins.split(","))); configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")); configuration.setAllowedHeaders(List.of("Authorization", "Content-Type", "X-Portal-Token")); configuration.setAllowCredentials(true);
+    CorsConfiguration configuration = new CorsConfiguration(); configuration.setAllowedOrigins(List.of(allowedOrigins.split(","))); configuration.setAllowedOriginPatterns(List.of("http://localhost:[*]", "http://127.0.0.1:[*]")); configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")); configuration.setAllowedHeaders(List.of("Authorization", "Content-Type", "X-Portal-Token")); configuration.setAllowCredentials(true);
     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource(); source.registerCorsConfiguration("/**", configuration); return source;
   }
 }
