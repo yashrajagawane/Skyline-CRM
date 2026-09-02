@@ -335,7 +335,7 @@ Set-Location ..
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\release-smoke.ps1
 ```
 
-The release test suite covers login, role security, notification state, report authorization/export, lead creation, booking conflict protection, payment workflows, payroll locking, and petty-cash approval behavior.
+The current release test suite covers demo login, notification state, report authorization/export, and filtered report pagination. Additional domain workflow, security, integration, and end-to-end coverage is tracked in [remaing-work.md](remaing-work.md) and is required before production handover.
 
 ## Troubleshooting
 
