@@ -54,6 +54,7 @@ export const api = {
   ,lifecycleBookings: () => request<SalesRow[]>('/lifecycle/bookings')
   ,lifecycleSummary: (bookingId: string) => request<Record<string, unknown>>(`/lifecycle/bookings/${bookingId}/summary`)
   ,uploadDocument: (bookingId: string, data: Record<string, unknown>) => request<SalesRow>(`/lifecycle/bookings/${bookingId}/documents`, { method: 'POST', body: JSON.stringify(data) })
+  ,uploadDocumentContent: async (documentId: string, file: File) => { const form = new FormData(); form.append('file', file); const response = await fetch(`${API_URL}/lifecycle/documents/${documentId}/content`, { method: 'POST', headers: { Authorization: `Bearer ${localStorage.getItem('sv_access_token') ?? ''}` }, body: form }); if (!response.ok) throw new Error('Document upload failed.'); return response.json() as Promise<SalesRow>; }
   ,portalAccess: (email: string, bookingNumber?: string) => request<{ portalToken: string; expiresAt: string; customer: string }>('/portal/access', { method: 'POST', body: JSON.stringify({ email, bookingNumber: bookingNumber || null }) })
   ,portalMe: (token: string) => request<Record<string, unknown>>('/portal/me', { headers: { 'X-Portal-Token': token } })
   ,portalTicket: (token: string, data: Record<string, unknown>) => request<SalesRow>('/portal/tickets', { method: 'POST', headers: { 'X-Portal-Token': token }, body: JSON.stringify(data) })

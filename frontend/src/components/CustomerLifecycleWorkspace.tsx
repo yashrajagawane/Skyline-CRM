@@ -36,7 +36,7 @@ export function CustomerLifecycleWorkspace({ module }: Props) {
     event.preventDefault(); if (!selected) return;
     setBusy(true); const form = new FormData(event.currentTarget);
     try {
-      if (modal === 'document') await api.uploadDocument(selected, { documentType: form.get('documentType'), fileName: form.get('fileName'), storageKey: form.get('storageKey'), expiryDate: form.get('expiryDate') || null });
+      if (modal === 'document') { const created = await api.uploadDocument(selected, { documentType: form.get('documentType'), fileName: form.get('fileName'), storageKey: form.get('storageKey'), expiryDate: form.get('expiryDate') || null }); const file = form.get('file'); if (file instanceof File && file.size > 0) await api.uploadDocumentContent(String(created.id), file); }
       if (modal === 'loan') await api.updateLoan(selected, { status: form.get('status'), bankName: form.get('bankName'), loanAmount: Number(form.get('loanAmount')) || null, emi: Number(form.get('emi')) || null, sanctionDate: form.get('sanctionDate') || null, loanOfficer: form.get('loanOfficer'), rejectionReason: form.get('rejectionReason'), disbursementDate: form.get('disbursementDate') || null });
       if (modal === 'agreement') await api.updateAgreement(selected, { status: form.get('status'), agreementDate: form.get('agreementDate') || null, agreementValue: Number(form.get('agreementValue')) || null, stampDuty: Number(form.get('stampDuty')) || null, registrationDate: form.get('registrationDate') || null, registrationNumber: form.get('registrationNumber'), legalNotes: form.get('legalNotes') });
       setModal(null); await load(selected);
