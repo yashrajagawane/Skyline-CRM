@@ -100,6 +100,8 @@ Payroll component, commission, attendance/leave, duplicate-run, lock immutabilit
 
 Dependencies: Phase 1 security and Phase 5 finance reconciliation.
 
+Status: In progress. Purchase-order approval, vendor-bill partial/full payment, petty-cash approval/payment/reversal, action-oriented procurement UI, CSV export, and duplicate/invalid payment guards are now implemented. Three-way matching, voucher PDFs, richer vendor/compliance forms, reconciliation, and automated tests remain.
+
 ### Remaining work
 
 - Complete vendor master, categories, compliance documents, contact person, address, and masked bank data.
