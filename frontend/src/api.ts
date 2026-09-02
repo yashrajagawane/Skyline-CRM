@@ -79,6 +79,8 @@ export const api = {
   ,hrPayrollItems: (runId: string) => request<SalesRow[]>(`/hr/payroll-runs/${runId}/items`)
   ,createPayrollRun: (runMonth: string) => request<SalesRow>('/hr/payroll-runs', { method: 'POST', body: JSON.stringify({ runMonth }) })
   ,finalizePayroll: (runId: string) => request<SalesRow>(`/hr/payroll-runs/${runId}/finalize`, { method: 'POST' })
+  ,approveLeave: (leaveId: string, approve: boolean, comment = '') => request<SalesRow>(`/hr/leave/${leaveId}/approve`, { method: 'PATCH', body: JSON.stringify({ approve, comment }) })
+  ,paySalary: (itemId: string, paymentMode: string) => request<SalesRow>(`/hr/payroll-items/${itemId}/pay`, { method: 'POST', body: JSON.stringify({ paymentMode }) })
   ,procurementDashboard: () => request<Record<string, unknown>>('/procurement/dashboard')
   ,procurementVendors: () => request<SalesRow[]>('/procurement/vendors')
   ,purchaseOrders: () => request<SalesRow[]>('/procurement/purchase-orders')

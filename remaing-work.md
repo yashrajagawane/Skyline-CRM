@@ -80,6 +80,8 @@ Partial payments, overpayments, late fees, refunds, reversals, waivers, ledger r
 
 Dependencies: Phase 1 roles and employee data.
 
+Status: In progress. Payroll month normalization, duplicate-payment protection, payment-mode validation, leave approval actions, payroll-run creation/locking, and controlled salary payment UI are now implemented. Salary-slip PDFs, richer employee/payroll inputs, reversals, commission integration, and automated tests remain.
+
 ### Remaining work
 
 - Complete masked employee identity, bank, PAN/Aadhaar, PF, ESIC, and document fields.
