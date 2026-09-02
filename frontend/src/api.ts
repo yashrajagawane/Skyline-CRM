@@ -105,7 +105,7 @@ export const api = {
   ,markNotificationRead: (id: string) => request<SalesRow>(`/notifications/${id}/read`, { method: 'PATCH' })
   ,markAllNotificationsRead: () => request<{ updated: number }>('/notifications/read-all', { method: 'POST' })
   ,reportCatalog: () => request<SalesRow[]>('/reports/catalog')
-  ,reportData: (key: string) => request<{ reportKey: string; generatedAt: string; rows: SalesRow[]; rowCount: number }>(`/reports/${key}/data`)
+  ,reportData: (key: string, filters: { status?: string; project?: string; page?: number; size?: number } = {}) => { const query = new URLSearchParams(Object.entries(filters).filter(([, value]) => value !== undefined && value !== '') as [string,string][]); return request<{ reportKey: string; generatedAt: string; rows: SalesRow[]; rowCount: number; page: number; size: number }>(`/reports/${key}/data${query.toString() ? `?${query}` : ''}`); }
   ,reportExportUrl: (key: string, format: 'csv' | 'excel' | 'pdf') => `${API_URL}/reports/${key}/export?format=${format}`
-  ,reportExport: async (key: string, format: 'csv' | 'excel' | 'pdf') => { const response = await fetch(`${API_URL}/reports/${key}/export?format=${format}`, { headers: { Authorization: `Bearer ${localStorage.getItem('sv_access_token') ?? ''}` } }); if (!response.ok) throw new Error('Report export failed.'); return response.blob(); }
+  ,reportExport: async (key: string, format: 'csv' | 'excel' | 'pdf', filters: { status?: string; project?: string } = {}) => { const query = new URLSearchParams({ format, ...filters }); const response = await fetch(`${API_URL}/reports/${key}/export?${query}`, { headers: { Authorization: `Bearer ${localStorage.getItem('sv_access_token') ?? ''}` } }); if (!response.ok) throw new Error('Report export failed.'); return response.blob(); }
 };

@@ -140,6 +140,8 @@ Portal isolation, expired/revoked tokens, internal-note exclusion, SLA escalatio
 
 Dependencies: stable write workflows from Phases 3-8.
 
+Status: In progress. Reports now support server-side status/project filters, pagination metadata, filtered exports, row counts, and audit logging; the frontend has filter, refresh, export, and empty-state controls. Notification deep-link navigation, broader event emission, saved-view UI, and automated cross-role tests remain.
+
 ### Remaining work
 
 - Emit notifications for assignment, approval, follow-up due, payment due/overdue, document rejection/expiry, SLA breach, payroll approval, and procurement approval.
