@@ -36,6 +36,8 @@ Duplicate detection, ownership isolation, transfer authorization, overdue follow
 
 ## Phase 4 - Customer lifecycle
 
+Status: In progress. Document access validation and lifecycle API clients are being hardened; complete customer 360 UI, loan/agreement/possession actions, portal isolation, storage, and tests remain.
+
 Dependencies: confirmed bookings from Phase 3.
 
 ### Remaining work
