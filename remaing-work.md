@@ -58,6 +58,8 @@ Customer isolation, document masking/download permissions, readiness blockers, l
 
 ## Phase 5 - Finance and customer ledger
 
+Status: In progress. Payment amount validation and booking-scoped installment access are hardened; installment-plan administration, finance actions, reconciliation, receipts, reports, and automated tests remain.
+
 Dependencies: booking, customer, unit, and agreement data from Phases 3-4.
 
 ### Remaining work
