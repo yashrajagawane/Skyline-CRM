@@ -26,6 +26,11 @@ public class SalesLifecycleController {
   private final JdbcTemplate jdbc; private final AuditService audit;
   public SalesLifecycleController(JdbcTemplate jdbc, AuditService audit){this.jdbc=jdbc;this.audit=audit;}
 
+  @GetMapping("/executives") @PreAuthorize("hasAnyRole('SUPER_ADMIN','SALES_MANAGER','SALES_EXECUTIVE')")
+  public List<Map<String,Object>> executives(){
+    return jdbc.queryForList("select u.id,u.full_name as fullName,u.email from users u join user_roles ur on ur.user_id=u.id join roles r on r.id=ur.role_id where u.active=true and r.code='SALES_EXECUTIVE' order by u.full_name");
+  }
+
   @GetMapping("/leads/{leadId}/qualification") @PreAuthorize("hasAnyRole('SUPER_ADMIN','SALES_MANAGER','SALES_EXECUTIVE')")
   public Map<String,Object> qualification(@PathVariable UUID leadId,@AuthenticationPrincipal CurrentUser current){return leadView(current,leadId);}
 
