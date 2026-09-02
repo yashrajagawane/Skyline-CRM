@@ -220,6 +220,271 @@ Execute phases in order: 0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> 10. D
 
 The application is functional for the implemented role-based modules and has deployment-ready assets. Final enterprise release still requires CI execution of the JUnit workflow suite, Docker Compose validation, backup/restore rehearsal, and responsive visual QA.
 
+## Mentor manual closure roadmap
+
+This section is the execution checklist for completing the requirements in the mentor manual. It is intentionally more specific than the phase summaries above. Work should be completed in order, and a phase is not complete until its API, UI, security, data, and tests all pass.
+
+### Working rules for every phase
+
+- Start with a requirement-to-screen-to-endpoint checklist and keep it updated in the same pull request.
+- Use domain tables and domain endpoints as the source of truth. Do not add new functionality to `workspace_records`.
+- For every write: validate input, enforce ownership/role, write audit data, create relevant notifications, and return a stable response shape.
+- Add PostgreSQL and H2 migration changes together, with matching seed/demo data where needed.
+- Add frontend loading, empty, validation, permission-denied, server-error, and success states.
+- Add at least one positive and one negative authorization test for every new protected workflow.
+- Never expose raw Aadhaar, PAN, bank account, salary, or private customer documents in logs, tables, exports, or error responses.
+- Use the seeded accounts to verify every role after each phase.
+
+### Phase 0 and 1 - Baseline and security release gate
+
+Status: functionally implemented; final verification and evidence remain.
+
+Checklist:
+
+- Install frontend and backend dependencies from a clean checkout.
+- Run all seven demo logins and record the resulting role/module matrix.
+- Verify every frontend navigation item maps to a real domain screen or explicitly mark it as pending.
+- Verify all PostgreSQL and H2 migrations from an empty database.
+- Verify API error envelope, correlation ID, health probes, Swagger, CORS, and environment validation.
+- Verify user create/edit/disable/restore/reset-password/session-revocation flows.
+- Verify role denial for every administration and platform-setting endpoint.
+- Verify audit entries for login, sensitive reads, create, update, delete, approval, export, reversal, and restore.
+- Verify refresh-token rotation, reuse rejection, logout, throttling, and revoked-session rejection.
+
+Exit gate: clean backend test run, clean frontend build, all seven logins pass, and a documented permission matrix has no unexplained route.
+
+### Phase 2 - Inventory and property selection hardening
+
+Status: implemented and smoke-tested; add final requirement evidence.
+
+Checklist:
+
+- Confirm project -> wing -> floor -> unit hierarchy is usable from the UI.
+- Add or verify wing/floor creation and editing screens, not only backend endpoints.
+- Verify all manual fields: configuration, floor, wing, carpet area, built-up area, price, parking, amenities, and availability.
+- Verify available/sold/booked/reserved/blocked transitions and reservation expiry.
+- Verify reserve/release and booking cannot create a double allocation under concurrent requests.
+- Verify price and status history show actor, timestamp, old value, new value, and reason.
+- Verify sales roles have read-only access and Super Admin has management access.
+- Verify inventory CSV export is permission-safe and does not leak internal fields.
+
+Exit gate: inventory acceptance tests pass, including concurrent conflict protection and role-scoped reads.
+
+### Phase 3 - Sales lifecycle completion
+
+Dependencies: Phase 2 inventory identifiers and Phase 1 users/roles.
+
+Backend and data:
+
+- Add configurable lead sources and duplicate rules for mobile, email, and matching customer identity.
+- Complete duplicate review, merge/mark-duplicate history, consent, communication preference, and ownership filters.
+- Complete assignment and transfer history, including manager-only transfer and reason capture.
+- Complete qualification persistence for budget, loan, location, configuration, timeline, purpose, score, and remarks.
+- Complete follow-up types from the manual: call, WhatsApp, email, SMS, meeting, and video call.
+- Add overdue calculation, reminders, completion outcome, next date, call duration, customer response, and attachment metadata.
+- Complete site-visit booking, reschedule, no-show, visited status, pickup, executive, feedback, rating, preferred unit, visitor count, and next action.
+- Complete negotiation and quotation approval thresholds, immutable approved versions, revision comments, expiry, and price breakup.
+- Complete booking confirmation, booking date, booking amount, payment validation, cancellation, refund path, and controlled inventory release.
+
+Frontend:
+
+- Replace table-only sales screens with lead detail, qualification, activity timeline, follow-up calendar, site-visit form, negotiation form, quotation version view, and booking form.
+- Add manager transfer/approval actions and executive ownership restrictions.
+- Add explicit status badges and transition confirmations.
+- Add quotation approval, reject, revise, export, and audit-history actions.
+- Add booking confirmation/cancellation states and a printable confirmation view.
+
+Tests and exit gate:
+
+- Test duplicate detection, ownership isolation, transfer authorization, overdue follow-ups, visit status transitions, quotation immutability, approval thresholds, booking conflicts, cancellation, and inventory release.
+- A complete seeded lead can move from enquiry to confirmed booking through the UI with every transition audited.
+
+### Phase 4 - Customer lifecycle completion
+
+Dependencies: confirmed bookings from Phase 3.
+
+Backend and data:
+
+- Add customer/co-applicant records and link them to the lead, booking, unit, and responsible staff.
+- Define the document checklist from the manual: PAN, Aadhaar, photo, address proof, income proof, and bank statement.
+- Complete document versioning, file metadata, verification/rejection, expiry, masking, download authorization, and audit events.
+- Replace local-only file behavior with a storage provider interface that supports local development and object storage in production.
+- Complete loan state transitions: applied, bank verification, approved, rejected, and disbursed.
+- Complete agreement and registration fields, legal checklist, document status, and controlled updates.
+- Complete possession readiness gates, inspection, utility connection, key handover, possession letter, sign-off, ready, and delivered states.
+
+Frontend:
+
+- Build a customer 360 page with booking summary, documents, loan, agreement, payments, possession, and support tabs.
+- Add document upload, preview/download, verification, rejection reason, and expiry indicators.
+- Add loan and agreement edit forms with role-specific fields.
+- Add possession checklist with completion remarks, sign-off, and readiness blockers.
+
+Tests and exit gate:
+
+- Test document masking/download permissions, customer isolation, readiness blockers, legal/finance access boundaries, and possession delivery rules.
+- A customer cannot see another customer’s booking, documents, payment data, or internal notes.
+
+### Phase 5 - Finance, collections, and customer ledger
+
+Dependencies: bookings, customers, units, and agreement data from Phases 3-4.
+
+Backend and data:
+
+- Implement configurable installment plans for booking amount, agreement payment, slab payment, and final payment.
+- Add GST, parking, maintenance, legal charges, late fees, due dates, and plan recalculation rules.
+- Complete receipt lifecycle with draft, approved/paid, partial, refunded, reversed, and adjusted states.
+- Store UTR, cheque, payment mode, bank, payment date, receipt number, and approval history.
+- Implement waivers, credit notes, refunds, adjustments, and controlled reversal entries.
+- Implement customer ledger, aging buckets, due/overdue computation, collection targets, bank reconciliation, and immutable approved transactions.
+- Replace simplified bank-balance and profit/loss dashboard queries with reconciled accounting calculations.
+
+Frontend:
+
+- Build finance dashboard cards from live reconciled values.
+- Add installment-plan editor, receipt entry, approval/reversal/refund actions, payment history, aging view, and customer ledger.
+- Generate downloadable PDF receipts and printable payment history.
+- Show balance calculations consistently as total, paid, pending, overdue, refunded, and reversed.
+
+Tests and exit gate:
+
+- Test partial payment allocation, overpayment rejection, late fees, refunds, reversals, waivers, ledger reconciliation, approval thresholds, and role denial.
+- Finance reports must reconcile exactly to payment and adjustment source rows.
+
+### Phase 6 - HR, attendance, payroll, and employee payment
+
+Dependencies: Phase 1 roles and employee master data.
+
+Backend and data:
+
+- Complete masked employee identity, bank, PAN/Aadhaar, PF, ESIC, and document fields.
+- Implement daily attendance, check-in/out, overtime, leave balances, leave approval, and holidays.
+- Implement salary components: basic, HRA, incentives, commission, bonus, PF, ESIC, professional tax, advance, and loan recovery.
+- Implement payroll draft, recalculation, approval, finalization/lock, controlled reversal, payment date/mode/status, and salary month.
+- Add commission rules linked to confirmed bookings and approved sales outcomes.
+- Generate salary-slip PDFs with masked employee/payment data.
+
+Frontend:
+
+- Add employee detail and document checklist screens.
+- Add attendance entry/import, leave request/approval, holiday management, and overtime views.
+- Add payroll run creation, calculation preview, item detail, approval/lock, payment update, and salary-slip download.
+
+Tests and exit gate:
+
+- Test payroll component calculations, commission calculation, leave/attendance effects, duplicate payroll runs, lock immutability, payment status, and sensitive-field masking.
+- Locked payroll cannot be edited without an audited reversal flow.
+
+### Phase 7 - Vendor, procurement, bills, and petty cash
+
+Dependencies: Phase 1 security and Phase 5 finance approval/reconciliation rules.
+
+Backend and data:
+
+- Complete vendor master, categories, GST/PAN, compliance documents, contact person, address, and masked bank details.
+- Complete PO lifecycle with project, material/service, quantity, rate, GST, total, terms, approval, delivery, and audit history.
+- Implement three-way matching between purchase order, vendor bill, and received/approved value.
+- Complete partial/full vendor payment, due/overdue aging, GST summary, balance, UTR, bank, and ledger entries.
+- Implement petty-cash request, approval, payment, reconciliation, opening balance, receipts, closing balance, and reversal entries.
+- Generate voucher PDFs and prevent direct mutation of approved bills/vouchers.
+
+Frontend:
+
+- Add vendor create/edit/compliance screen.
+- Add PO creation/detail/approval and bill matching screens.
+- Add vendor payment form, ledger, outstanding aging, and payment history.
+- Add petty-cash request, approval, payment, reversal, cash-book, category report, and voucher download screens.
+
+Tests and exit gate:
+
+- Test vendor role cannot approve final finance payments, three-way mismatch rejection, partial payment balances, petty-cash approval/reversal, and report reconciliation.
+
+### Phase 8 - Customer support and portal
+
+Dependencies: Phase 4 customer/booking model and Phase 5 payment/document summaries.
+
+Backend and data:
+
+- Complete ticket lifecycle, category, priority, SLA due time, assignment, internal/public comments, attachments, resolution, satisfaction, reopen, and escalation.
+- Complete maintenance scheduling, technician, visit status, possession issue linkage, and completion notes.
+- Complete documentation requests, referrals, reward amount, lead conversion, and referral status history.
+- Complete customer portal token hashing, expiration, revocation, rate limits, and strict customer ownership checks.
+
+Frontend:
+
+- Add ticket detail, assignment, comment, status, SLA, escalation, maintenance, and referral actions.
+- Build the portal views for profile, booked unit, payment schedule, receipts, documents, loan/agreement state, possession checklist, tickets, and referrals.
+- Hide internal notes, staff-only fields, and unrelated customer records from portal responses and UI.
+
+Tests and exit gate:
+
+- Test portal isolation, expired/revoked tokens, internal-note exclusion, SLA breach escalation, reopen flow, attachment permissions, and support role boundaries.
+
+### Phase 9 - Notifications, reports, and exports
+
+Dependencies: stable write workflows from Phases 3-8.
+
+Backend and data:
+
+- Emit notifications for assignment, approval, follow-up due, payment due/overdue, document rejection/expiry, SLA breach, payroll approval, and procurement approval.
+- Complete persistent escalation processing, deep links, preferences, and role/user targeting.
+- Add report filters for date, project, status, role, owner, and module with pagination and saved views.
+- Verify CSV, Excel-compatible, PDF, and print output field selection and masking.
+- Audit every export with actor, report, format, row count, filters, and timestamp.
+
+Frontend:
+
+- Make notification rows navigate to the correct domain record.
+- Add report filter controls, saved views, refresh state, and export feedback.
+- Add consistent table formatting, totals, empty states, and print layouts.
+
+Tests and exit gate:
+
+- Test notification persistence/escalation, deep-link authorization, report filters, row counts, export formats, masking, and cross-role report denial.
+
+### Phase 10 - Final quality, deployment, and handover
+
+Dependencies: all previous phase exit gates.
+
+Checklist:
+
+- Add missing unit, repository, controller, security, integration, and end-to-end workflow tests.
+- Run the full Maven test suite in a network-enabled/CI environment with the required Surefire/JUnit dependencies.
+- Run `npm ci`, TypeScript checking, production build, and frontend smoke checks from a fresh checkout.
+- Run Docker Compose from an empty PostgreSQL volume and verify API, frontend, migrations, seed data, health, Swagger, and CORS.
+- Run backup/restore rehearsal and document database recovery steps.
+- Perform responsive visual QA for all seven roles on desktop, tablet, and mobile.
+- Remove stale logs, generated artifacts, credentials, and misleading completion claims from the repository.
+- Update README with final screenshots, exact setup commands, role matrix, workflow examples, environment requirements, and known operational limits.
+- Produce a mentor demonstration script covering one complete enquiry-to-possession journey plus HR, finance, procurement, support, reporting, and security scenarios.
+
+Final release gate:
+
+- Every manual section has a domain table, API, UI workflow, seed example, authorization test, and acceptance evidence.
+- Every role can log in and only sees authorized modules/data.
+- The complete enquiry-to-possession workflow works with audit history and notifications.
+- Finance, payroll, vendor, petty-cash, reports, and portal data reconcile and remain isolated.
+- PostgreSQL clean install, H2 tests, frontend build, Docker Compose, smoke tests, and responsive QA all pass.
+
+## Execution sequence and tracking format
+
+Work in this order: security verification -> inventory hardening -> sales -> customer lifecycle -> finance -> HR/payroll -> vendor/procurement -> support/portal -> notifications/reports -> release QA.
+
+For each task, record the following in the commit or pull request description:
+
+```text
+Requirement:
+Backend files/endpoints:
+Migration/seed changes:
+Frontend screens/actions:
+Authorization rules:
+Tests run:
+Evidence/result:
+Remaining risk:
+```
+
+Do not mark a phase complete because an endpoint exists. Mark it complete only when the end-to-end workflow, authorization, persistence, audit/notification behavior, exports, and automated tests satisfy the phase exit gate.
+
 ### Historical phase notes
 
 - **Phase 0 complete:** local H2 and production PostgreSQL migration tracks, API error envelope, correlation IDs, health probes, OpenAPI metadata, and build verification are in place.
