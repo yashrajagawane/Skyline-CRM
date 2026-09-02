@@ -140,7 +140,7 @@ Portal isolation, expired/revoked tokens, internal-note exclusion, SLA escalatio
 
 Dependencies: stable write workflows from Phases 3-8.
 
-Status: In progress. Reports now support server-side status/project filters, pagination metadata, filtered exports, row counts, and audit logging; the frontend has filter, refresh, export, and empty-state controls. Notification deep-link navigation, broader event emission, saved-view UI, and automated cross-role tests remain.
+Status: In progress. Reports now support server-side status/project filters, pagination metadata, filtered exports, row counts, audit logging, and saved-view create/apply UI. Notification deep-link routing and preference API support are now wired. Broader event emission, richer preference UI, and automated cross-role tests remain.
 
 ### Remaining work
 

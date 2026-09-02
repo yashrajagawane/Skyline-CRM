@@ -104,7 +104,11 @@ export const api = {
   ,notificationUnreadCount: () => request<{ unread: number }>('/notifications/unread-count')
   ,markNotificationRead: (id: string) => request<SalesRow>(`/notifications/${id}/read`, { method: 'PATCH' })
   ,markAllNotificationsRead: () => request<{ updated: number }>('/notifications/read-all', { method: 'POST' })
+  ,notificationPreferences: () => request<SalesRow>('/notifications/preferences')
+  ,updateNotificationPreferences: (preferences: Record<string, boolean>) => request<SalesRow>('/notifications/preferences', { method: 'PUT', body: JSON.stringify(preferences) })
   ,reportCatalog: () => request<SalesRow[]>('/reports/catalog')
+  ,savedReportViews: () => request<SalesRow[]>('/reports/saved-views')
+  ,saveReportView: (reportKey: string, viewName: string, filtersJson: string) => request<SalesRow>('/reports/saved-views', { method: 'POST', body: JSON.stringify({ reportKey, viewName, filtersJson }) })
   ,reportData: (key: string, filters: { status?: string; project?: string; page?: number; size?: number } = {}) => { const query = new URLSearchParams(Object.entries(filters).filter(([, value]) => value !== undefined && value !== '') as [string,string][]); return request<{ reportKey: string; generatedAt: string; rows: SalesRow[]; rowCount: number; page: number; size: number }>(`/reports/${key}/data${query.toString() ? `?${query}` : ''}`); }
   ,reportExportUrl: (key: string, format: 'csv' | 'excel' | 'pdf') => `${API_URL}/reports/${key}/export?format=${format}`
   ,reportExport: async (key: string, format: 'csv' | 'excel' | 'pdf', filters: { status?: string; project?: string } = {}) => { const query = new URLSearchParams({ format, ...filters }); const response = await fetch(`${API_URL}/reports/${key}/export?${query}`, { headers: { Authorization: `Bearer ${localStorage.getItem('sv_access_token') ?? ''}` } }); if (!response.ok) throw new Error('Report export failed.'); return response.blob(); }
