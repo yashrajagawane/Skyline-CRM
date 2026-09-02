@@ -152,7 +152,7 @@ docs/
   screenshots/                          Preview images referenced in this README
 docker-compose.yml                      PostgreSQL + API + frontend stack
 .env.example                            Local environment template
-IMPLEMENTATION_PLAN.md                  Phase plan and implementation status
+remaing-work.md                         Remaining implementation work and phase status
 ```
 
 ## Local development
@@ -361,7 +361,7 @@ Confirm the service is a Web Service, not a Background Worker, and that the appl
 
 ## Documentation
 
-- [Implementation plan and phase status](IMPLEMENTATION_PLAN.md)
+- [Remaining implementation work and phase status](remaing-work.md)
 - [Environment template](.env.example)
 - [Docker Compose stack](docker-compose.yml)
 - PostgreSQL migrations: `backend/src/main/resources/db/migration/`

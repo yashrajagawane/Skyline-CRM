@@ -160,6 +160,8 @@ Notification persistence/escalation, deep-link authorization, report filters, ro
 
 Dependencies: all previous phase exit gates.
 
+Status: In progress. Repository CI now validates backend Maven tests, frontend dependency/build checks, and Docker Compose configuration; README setup, role, deployment, API, security, and quality guidance is corrected to reference the current remaining-work tracker. Full backend execution, Docker smoke testing, backup/restore, responsive QA, screenshots, and final end-to-end acceptance evidence remain.
+
 ### Remaining work
 
 - Add missing unit, repository, controller, security, integration, and end-to-end workflow tests.
