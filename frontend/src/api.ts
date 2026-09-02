@@ -98,6 +98,8 @@ export const api = {
   ,createSupportTicket: (data: Record<string, unknown>) => request<SalesRow>('/support/tickets', { method: 'POST', body: JSON.stringify(data) })
   ,updateSupportStatus: (id: string, data: Record<string, unknown>) => request<SalesRow>(`/support/tickets/${id}/status`, { method: 'PATCH', body: JSON.stringify(data) })
   ,updateMaintenanceStatus: (id: string, data: Record<string, unknown>) => request<SalesRow>(`/support/maintenance/${id}/status`, { method: 'PATCH', body: JSON.stringify(data) })
+  ,supportComments: (ticketId: string) => request<SalesRow[]>(`/support/tickets/${ticketId}/comments`)
+  ,addSupportComment: (ticketId: string, commentText: string, internal = false) => request<SalesRow>(`/support/tickets/${ticketId}/comments`, { method: 'POST', body: JSON.stringify({ commentText, internal }) })
   ,notifications: (unreadOnly = false) => request<SalesRow[]>(`/notifications?unreadOnly=${unreadOnly}`)
   ,notificationUnreadCount: () => request<{ unread: number }>('/notifications/unread-count')
   ,markNotificationRead: (id: string) => request<SalesRow>(`/notifications/${id}/read`, { method: 'PATCH' })

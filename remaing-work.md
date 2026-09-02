@@ -120,6 +120,8 @@ Vendor approval boundaries, three-way mismatch rejection, partial-payment balanc
 
 Dependencies: Phase 4 customer/booking model and Phase 5 payment/document summaries.
 
+Status: In progress. Ticket and maintenance status controls, support notes, SLA dashboard metrics, CSV export, and backend status/rating validation are now implemented. Customer-facing ticket creation, assignment workflows, notifications, attachments, SLA automation, and automated tests remain.
+
 ### Remaining work
 
 - Complete ticket lifecycle, category, priority, SLA timer, assignment, internal/public comments, attachments, resolution, satisfaction, reopen, and escalation.
