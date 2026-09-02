@@ -1,3 +1,3 @@
 @echo off
 cd /d "%~dp0"
-"..\.tools\apache-maven-3.9.10\bin\mvn.cmd" spring-boot:run -q
+mvn -Dspring.flyway.locations=classpath:/db/migration-h2/ spring-boot:run -q

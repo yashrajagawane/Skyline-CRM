@@ -8,6 +8,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -16,6 +17,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(properties = {"server.servlet.context-path=", "spring.main.banner-mode=off"})
 @AutoConfigureMockMvc
 @ActiveProfiles("local")
+@TestPropertySource(properties = "spring.flyway.locations=classpath:/db/migration-h2/")
 class ReleaseWorkflowTest {
   @Autowired MockMvc mockMvc;
   @Autowired ObjectMapper objectMapper;
