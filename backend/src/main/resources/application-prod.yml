@@ -14,4 +14,4 @@ app:
     access-token-minutes: ${JWT_ACCESS_TOKEN_MINUTES:30}
     refresh-token-days: ${JWT_REFRESH_TOKEN_DAYS:14}
   cors:
-    allowed-origins: ${FRONTEND_URLS:http://localhost:5173}
+    allowed-origins: ${FRONTEND_URLS:http://localhost:5173,http://127.0.0.1:5173,http://localhost:5174,http://127.0.0.1:5174}

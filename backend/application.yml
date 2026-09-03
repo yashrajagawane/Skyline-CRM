@@ -2,9 +2,9 @@ spring:
   application:
     name: sai-vandan-crm-api
   datasource:
-    url: ${DB_URL:jdbc:h2:mem:sai_vandan_crm;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;DEFAULT_NULL_ORDERING=HIGH}
-    username: ${DB_USERNAME:saivandan}
-    password: ${DB_PASSWORD:}
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
   jpa:
     open-in-view: false
     hibernate:
@@ -14,9 +14,9 @@ spring:
         format_sql: true
   flyway:
     enabled: true
-    locations: classpath:db/migration/h2
+    locations: classpath:db/migration
   profiles:
-    active: ${SPRING_PROFILES_ACTIVE:local}
+    active: ${SPRING_PROFILES_ACTIVE:prod}
 server:
   port: ${PORT:8080}
   servlet:

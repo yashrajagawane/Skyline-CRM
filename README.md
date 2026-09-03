@@ -127,8 +127,8 @@ flowchart TB
 ### Technology stack
 
 - Backend: Java 21, Spring Boot 3.5, Spring Security, Spring Data JPA, JdbcTemplate.
-- Database: PostgreSQL 16 in production; H2 with a separate migration track for fast local demos.
-- Migrations: Flyway, PostgreSQL migrations in `backend/src/main/resources/db/migration/` and H2 migrations in `backend/src/main/resources/db/migration-h2/`.
+- Database: PostgreSQL 16 for local development and production.
+- Migrations: Flyway PostgreSQL migrations in `backend/src/main/resources/db/migration/`.
 - Frontend: React, TypeScript, Vite, Recharts, Lucide icons, responsive CSS.
 - Authentication: JWT access and refresh tokens, rotation, logout, device/session records, password hashing, and role guards.
 - Storage: local storage abstraction, designed to be replaced by S3-compatible storage later.
@@ -140,7 +140,7 @@ flowchart TB
 backend/
   src/main/java/com/saivandan/crm/     API, security, modules and services
   src/main/resources/db/migration/     PostgreSQL Flyway migrations
-  src/main/resources/db/migration-h2/  H2 Flyway migrations
+  src/main/resources/db/migration/     PostgreSQL Flyway migrations
   Dockerfile
 frontend/
   src/                                 React application and API client
@@ -164,14 +164,20 @@ remaing-work.md                         Remaining implementation work and phase 
 - Docker Desktop (optional, for the complete containerized stack)
 - Maven 3.9+ or the repository-provided Maven runtime under `.tools/`
 
-### Run the backend with the local H2 profile
+### Run the backend with PostgreSQL
 
 ```powershell
-Set-Location "C:\Users\agawa\OneDrive\Documents\Sai Vandan\backend"
-& ..\.tools\apache-maven-3.9.10\bin\mvn.cmd -Dmaven.repo.local=..\.tools\m2 spring-boot:run
+Set-Location "C:\Users\agawa\OneDrive\Documents\ChatGPT\Sai-Vandan-CRM\backend"
+$env:SPRING_PROFILES_ACTIVE="prod"
+$env:DB_URL="jdbc:postgresql://localhost:5432/sai_vandan_crm"
+$env:DB_USERNAME="postgres"
+$env:DB_PASSWORD="<your PostgreSQL password>"
+$env:JWT_SECRET="<long random secret>"
+& "C:\Program Files\PostgreSQL\17\bin\psql.exe" -h localhost -U postgres -d postgres -c "CREATE DATABASE sai_vandan_crm;"
+& "<path-to-maven>\mvn.cmd" spring-boot:run -q
 ```
 
-The API starts at `http://localhost:8080/api/v1`. H2 migrations and realistic seed data are loaded automatically.
+Flyway creates the PostgreSQL schema and the backend seed runner inserts the demo users and realistic CRM data automatically. The API starts at `http://localhost:8080/api/v1`.
 
 ### Run the frontend
 
@@ -209,7 +215,7 @@ Stop services with `docker compose down`. Use `docker compose down -v` only when
 
 | Variable | Purpose |
 |---|---|
-| `SPRING_PROFILES_ACTIVE` | `local` for H2 or `prod` for PostgreSQL |
+| `SPRING_PROFILES_ACTIVE` | `prod` for PostgreSQL |
 | `DB_URL` | JDBC URL, for example `jdbc:postgresql://host:5432/database` |
 | `DB_USERNAME` | PostgreSQL username |
 | `DB_PASSWORD` | PostgreSQL password |
@@ -365,7 +371,6 @@ Confirm the service is a Web Service, not a Background Worker, and that the appl
 - [Environment template](.env.example)
 - [Docker Compose stack](docker-compose.yml)
 - PostgreSQL migrations: `backend/src/main/resources/db/migration/`
-- H2 migrations: `backend/src/main/resources/db/migration-h2/`
 
 ## License and data notice
 
