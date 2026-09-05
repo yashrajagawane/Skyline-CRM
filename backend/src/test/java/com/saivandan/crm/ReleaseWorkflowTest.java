@@ -23,7 +23,7 @@ class ReleaseWorkflowTest {
   @Test
   void demoLoginAndRoleScopedNotificationsWork() throws Exception {
     String body = mockMvc.perform(post("/auth/login").contentType(MediaType.APPLICATION_JSON)
-        .content("{\"email\":\"admin@saivandan.local\",\"password\":\"ChangeMe!2026\"}"))
+        .content("{\"email\":\"admin@skyline.local\",\"password\":\"ChangeMe!2026\"}"))
       .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
     JsonNode json = objectMapper.readTree(body);
     String token = json.get("accessToken").asText();
@@ -38,7 +38,7 @@ class ReleaseWorkflowTest {
   @Test
   void financeCannotReadPayrollReport() throws Exception {
     String body = mockMvc.perform(post("/auth/login").contentType(MediaType.APPLICATION_JSON)
-        .content("{\"email\":\"finance@saivandan.local\",\"password\":\"ChangeMe!2026\"}"))
+        .content("{\"email\":\"finance@skyline.local\",\"password\":\"ChangeMe!2026\"}"))
       .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
     String token = objectMapper.readTree(body).get("accessToken").asText();
     mockMvc.perform(get("/reports/payroll/data").header("Authorization", "Bearer " + token))
@@ -48,7 +48,7 @@ class ReleaseWorkflowTest {
   @Test
   void reportExportProducesCsv() throws Exception {
     String body = mockMvc.perform(post("/auth/login").contentType(MediaType.APPLICATION_JSON)
-        .content("{\"email\":\"admin@saivandan.local\",\"password\":\"ChangeMe!2026\"}"))
+        .content("{\"email\":\"admin@skyline.local\",\"password\":\"ChangeMe!2026\"}"))
       .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
     String token = objectMapper.readTree(body).get("accessToken").asText();
     mockMvc.perform(get("/reports/lead-funnel/export?format=csv").header("Authorization", "Bearer " + token))
@@ -58,7 +58,7 @@ class ReleaseWorkflowTest {
   @Test
   void reportDataSupportsFiltersAndPaginationMetadata() throws Exception {
     String body = mockMvc.perform(post("/auth/login").contentType(MediaType.APPLICATION_JSON)
-        .content("{\"email\":\"admin@saivandan.local\",\"password\":\"ChangeMe!2026\"}"))
+        .content("{\"email\":\"admin@skyline.local\",\"password\":\"ChangeMe!2026\"}"))
       .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
     String token = objectMapper.readTree(body).get("accessToken").asText();
     mockMvc.perform(get("/reports/lead-funnel/data?status=NEW&page=0&size=1")

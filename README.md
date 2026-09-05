@@ -1,8 +1,8 @@
 <div align="center">
 
-# Sai Vandan CRM
+# Skyline CRM CRM
 
-*Enterprise real-estate CRM and operational ERP for Sai Vandan Complex — enquiry to possession, in one secure workspace.*
+*Enterprise real-estate CRM and operational ERP for Skyline CRM — enquiry to possession, in one secure workspace.*
 
 [![Java](https://img.shields.io/badge/Java-21-437291?style=flat-square&logo=openjdk&logoColor=white)](https://openjdk.org/projects/jdk/21/)
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5-6DB33F?style=flat-square&logo=springboot&logoColor=white)](https://spring.io/projects/spring-boot)
@@ -13,7 +13,7 @@
 
 </div>
 
-Sai Vandan CRM is an enterprise-ready real-estate CRM and operational ERP built for Sai Vandan Complex. It connects the complete property-sales lifecycle—from enquiry and follow-up to inventory, negotiation, booking, collections, documentation, possession, procurement, payroll, and after-sales support—in one secure workspace.
+Skyline CRM CRM is an enterprise-ready real-estate CRM and operational ERP built for Skyline CRM. It connects the complete property-sales lifecycle—from enquiry and follow-up to inventory, negotiation, booking, collections, documentation, possession, procurement, payroll, and after-sales support—in one secure workspace.
 
 The application is designed for a real Indian real-estate operating team. It includes role-specific dashboards, strict API authorization, auditable workflows, PostgreSQL migrations, realistic seed data, report exports, notifications, and deployment configuration for Docker and Render.
 
@@ -102,13 +102,13 @@ All seeded demo users use the password `ChangeMe!2026` in local/demo environment
 
 | Role | Email |
 |---|---|
-| Super Admin | `admin@saivandan.local` |
-| Sales Manager | `sales.manager@saivandan.local` |
-| Sales Executive | `sales.executive@saivandan.local` |
-| HR & Payroll | `hr@saivandan.local` |
-| Accounts & Finance | `finance@saivandan.local` |
-| Vendor Manager | `vendor@saivandan.local` |
-| Customer Support | `support@saivandan.local` |
+| Super Admin | `admin@skyline.local` |
+| Sales Manager | `sales.manager@skyline.local` |
+| Sales Executive | `sales.executive@skyline.local` |
+| HR & Payroll | `hr@skyline.local` |
+| Accounts & Finance | `finance@skyline.local` |
+| Vendor Manager | `vendor@skyline.local` |
+| Customer Support | `support@skyline.local` |
 
 Never use these credentials in a real production environment. Rotate or disable seeded users before handing the system to an operating team.
 
@@ -182,7 +182,7 @@ Flyway creates the PostgreSQL schema and the backend seed runner inserts the dem
 ### Run the frontend
 
 ```powershell
-Set-Location "C:\Users\agawa\OneDrive\Documents\Sai Vandan\frontend"
+Set-Location "C:\Users\agawa\OneDrive\Documents\Skyline CRM\frontend"
 npm ci
 npm run dev
 ```
@@ -196,7 +196,7 @@ VITE_API_URL=http://localhost:8080/api/v1
 ### Run the complete Docker stack
 
 ```powershell
-Set-Location "C:\Users\agawa\OneDrive\Documents\Sai Vandan"
+Set-Location "C:\Users\agawa\OneDrive\Documents\Skyline CRM"
 Copy-Item .env.example .env
 # Edit .env and replace every development secret.
 docker compose up --build -d
@@ -374,4 +374,4 @@ Confirm the service is a Web Service, not a Background Worker, and that the appl
 
 ## License and data notice
 
-This project is an internal business application for Sai Vandan Complex. Review licensing, privacy, retention, consent, Aadhaar/PAN handling, and local regulatory requirements before using it with real customer or employee data.
+This project is an internal business application for Skyline CRM. Review licensing, privacy, retention, consent, Aadhaar/PAN handling, and local regulatory requirements before using it with real customer or employee data.

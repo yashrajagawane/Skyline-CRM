@@ -92,4 +92,4 @@ INSERT INTO permissions(code, name, module) VALUES
 ('SUPPORT_MANAGE','Manage support','SUPPORT'), ('REPORT_VIEW','View reports','REPORTS'), ('USER_MANAGE','Manage users and roles','ADMIN'), ('AUDIT_VIEW','View audit logs','ADMIN');
 
 INSERT INTO user_roles(user_id, role_id)
-SELECT u.id, r.id FROM users u CROSS JOIN roles r WHERE u.email = 'admin@saivandan.local' AND r.code = 'SUPER_ADMIN';
+SELECT u.id, r.id FROM users u CROSS JOIN roles r WHERE u.email = 'admin@skyline.local' AND r.code = 'SUPER_ADMIN';

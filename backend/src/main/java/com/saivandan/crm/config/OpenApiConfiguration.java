@@ -8,6 +8,6 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class OpenApiConfiguration {
   @Bean OpenAPI saiVandanOpenAPI() {
-    return new OpenAPI().info(new Info().title("Sai Vandan CRM API").version("v1").description("Role-aware Real Estate CRM and ERP API for Sai Vandan Complex."));
+    return new OpenAPI().info(new Info().title("Skyline CRM CRM API").version("v1").description("Role-aware Real Estate CRM and ERP API for Skyline CRM."));
   }
 }

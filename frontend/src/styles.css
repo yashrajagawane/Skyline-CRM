@@ -2,7 +2,7 @@
 @media(max-width:950px){.sidebar{transform:translateX(-100%);transition:.2s}.sidebar.open{transform:none}.mobile-close,.hamburger{display:grid}.overlay{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:4}main{margin:0;width:100%}header{padding:18px 24px}.page{padding:28px 24px}.stat-grid{grid-template-columns:repeat(2,1fr)}.search{display:none}.dashboard-grid{grid-template-columns:1fr}.login-page{grid-template-columns:1fr}.login-panel{min-height:360px}.login-copy{margin-top:70px}.login-form-wrap{min-height:550px}}
 @media(max-width:560px){header{height:auto}.header-title h1{font-size:20px}.header-title p{display:none}.page{padding:24px 16px}.stat-grid{grid-template-columns:1fr 1fr;gap:10px}.stat-card{padding:14px}.stat-card h3{font-size:23px}.page-top{align-items:start}.page-top h2{font-size:23px}.primary{padding:10px 12px;font-size:12px}.form-grid{grid-template-columns:1fr}.form-grid .wide{grid-column:auto}.modal{padding:20px}.login-panel{padding:30px;min-height:300px}.login-copy{margin-top:48px}.login-copy h1{font-size:38px}.chart-legend{display:grid;gap:8px}}
 
-/* Sai Vandan Skyline theme: midnight indigo, terracotta copper and limestone. */
+/* Skyline CRM Skyline theme: midnight indigo, terracotta copper and limestone. */
 :root{font-family:"DM Sans",Arial,sans-serif;color:#202d3d;background:#f3f0e9}
 body{background:#f3f0e9;color:#202d3d}
 .sidebar{background:#172a46;color:#f7f2e8;overflow-y:auto;overflow-x:hidden;scrollbar-width:thin;scrollbar-color:#b96d4d #172a46}

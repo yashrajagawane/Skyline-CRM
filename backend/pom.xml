@@ -10,7 +10,7 @@
   <groupId>com.saivandan</groupId>
   <artifactId>sai-vandan-crm-api</artifactId>
   <version>0.1.0</version>
-  <name>Sai Vandan CRM API</name>
+  <name>Skyline CRM CRM API</name>
   <properties><java.version>21</java.version></properties>
   <dependencies>
     <dependency><groupId>org.springframework.boot</groupId><artifactId>spring-boot-starter-web</artifactId></dependency>
