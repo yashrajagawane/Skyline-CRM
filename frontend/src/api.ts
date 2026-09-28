@@ -1,6 +1,7 @@
 const API_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:8080/api/v1';
 export type User = { id: string; fullName: string; email: string; roles: string[] };
 export type AdminUser = { id: string; fullName: string; email: string; mobile: string | null; active: boolean; roles: string; invitationStatus?: string; mustChangePassword?: boolean; lastLoginAt?: string | null; createdAt?: string };
+export type AuditLog = { id: string; entityType: string; entityId: string; action: string; beforeData: string | null; afterData: string | null; ipAddress: string | null; createdAt: string; actor: string | null };
 export type AuthResult = { accessToken: string; refreshToken: string; user: User };
 export type Lead = { id: string; leadNumber: string; customerName: string; mobile: string; source: string; status: string; temperature: string; assignedTo: string | null; createdAt: string };
 export type Page<T> = { content: T[]; totalElements: number; totalPages: number; number: number };
@@ -25,7 +26,7 @@ export const api = {
   completePasswordChange: (email: string, currentPassword: string, newPassword: string) => request<{ message: string }>('/auth/complete-password-change', { method: 'POST', body: JSON.stringify({ email, currentPassword, newPassword }) }),
   adminUsers: () => request<AdminUser[]>('/admin/users'),
   adminRoles: () => request<{ id: string; code: string; name: string }[]>('/admin/roles'),
-  adminAuditLogs: (limit = 100) => request<Record<string, unknown>[]>(`/admin/audit-logs?limit=${limit}`),
+  adminAuditLogs: (limit = 100) => request<AuditLog[]>(`/admin/audit-logs?limit=${limit}`),
   createAdminUser: (data: Record<string, unknown>) => request<AdminUser & { invitationUrl?: string; invitationExpiresAt?: string }>('/admin/users', { method: 'POST', body: JSON.stringify(data) }),
   resendAdminInvitation: (id: string) => request<Record<string, unknown>>(`/admin/users/${id}/invite`, { method: 'POST' }),
   revokeAdminInvitation: (id: string) => request<void>(`/admin/users/${id}/invite/revoke`, { method: 'POST' }),

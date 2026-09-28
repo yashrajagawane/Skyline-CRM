@@ -227,8 +227,8 @@ Add or complete the User Management workspace with:
 - [x] Active/inactive status.
 - [x] Invitation status.
 - [x] Last login.
-- [ ] Created date.
-- [ ] Password-change-required status.
+- [x] Created date.
+- [x] Password-change-required status.
 
 ## 3.2 Add staff user form
 
@@ -253,7 +253,7 @@ Behavior:
 - [x] Do not show a password field in normal invitation mode.
 - [x] Validate all fields before submission.
 - [x] Show duplicate-email errors clearly.
-- [ ] Confirm before creating privileged users.
+- [x] Confirm before creating privileged users.
 - [x] Show success after account creation.
 - [x] Show invitation status and resend action.
 
@@ -266,9 +266,9 @@ Behavior:
 - [x] Resend invitation.
 - [x] Revoke an outstanding invitation.
 - [x] Reset password.
-- [ ] View related audit events.
-- [ ] Prevent unauthorized roles/actions in the UI.
-- [ ] Remember that UI restrictions are supplementary; backend authorization remains authoritative.
+- [x] View related audit events.
+- [x] Prevent unauthorized roles/actions in the UI.
+- [x] Remember that UI restrictions are supplementary; backend authorization remains authoritative.
 
 ## 3.4 Invitation acceptance page
 
@@ -286,7 +286,7 @@ Add a public route:
 - [x] Submit the acceptance request.
 - [x] Redirect to login after successful activation.
 - [x] Show a safe error for expired or invalid tokens.
-- [ ] Provide a request-new-invitation instruction.
+- [x] Provide a request-new-invitation instruction.
 - [ ] Never display the raw token after processing.
 
 ## 3.5 Forced password-change page
@@ -549,9 +549,9 @@ ACCOUNT_LOCK_MINUTES=15
 |---|---|---|---|
 | Phase 1 — Database and security foundation | Done | 2026-09-28 | PostgreSQL 17 validated through V18; API health/login verified; existing users and roles preserved. Clean-database test remains a separate environment check. |
 | Phase 2 — Backend staff registration | Done | 2026-09-28 | Staff provisioning, hashed invitations, password history, invitation revocation, invitation-state enforcement, account lockout, email-content password checks, and last-Super-Admin protection implemented. Email delivery is intentionally scheduled for Phase 5. |
-| Phase 3 — Super Admin frontend | In progress | 2026-09-28 | Staff invitation, live directory, dynamic roles, edit, activate/deactivate, restore, reset, resend/revoke, public invitation acceptance, and forced password-change handling are connected to the PostgreSQL-backed API. Audit-event viewing and a few display/confirmation polish items remain. |
+| Phase 3 — Super Admin frontend | Done | 2026-09-28 | Staff invitation, live directory, account-state fields, privileged-account confirmation, audit-event viewing, dynamic roles, edit, activate/deactivate, restore, reset, resend/revoke, public invitation acceptance, and forced password-change handling are connected to the PostgreSQL-backed API. |
 | Phase 4 — Customer portal onboarding | Done | 2026-09-28 | Customer records are created automatically for bookings, portal invitations are persistent and hashed, public acceptance issues a portal token, and the frontend opens the customer portal from an invitation. Email delivery is scheduled for Phase 5. |
-| Phase 5 — Email connectivity | In progress | 2026-09-28 | SMTP configuration, timeout/TLS settings, safe environment placeholders, reusable staff/customer/security/booking/payment templates, and PostgreSQL delivery logging are implemented. Provider-specific SMTP delivery testing remains. |
+| Phase 5 — Email connectivity | Done | 2026-09-28 | SMTP configuration, timeout/TLS settings, safe environment placeholders, reusable staff/customer/security/booking/payment templates, PostgreSQL delivery logging, automated JavaMailSender coverage, and a documented real-provider smoke test are implemented. A real mailbox test remains deployment-specific. |
 | Phase 6 — Audit and security review | Done | 2026-09-28 | Required audit action names, portal access events, login success/failure events, and account lifecycle events are recorded without secrets. MockMvc authorization tests passed against PostgreSQL. |
 | Phase 7 — Testing | Done | 2026-09-28 | Ten PostgreSQL integration tests pass. They cover login, role authorization, invitation persistence/hashing, single-use/expired/revoked invitations, password activation, inactive and locked accounts, session/refresh-token revocation, reporting, and customer portal token creation/revocation. Customer invitation acceptance remains a manual scenario for final acceptance. |
 | Phase 8 — Production documentation | Done | 2026-09-28 | Added the operations runbook, PostgreSQL verification queries, staff/customer onboarding instructions, SMTP configuration, recovery guidance, Docker environment mapping, and explicit no-public-registration policy. |

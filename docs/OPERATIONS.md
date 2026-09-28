@@ -95,6 +95,21 @@ MAIL_TLS_ENABLED=true
 
 Invitation, password, account-lock, booking, and payment messages are recorded in `email_delivery_log` with safe status information. Credentials, passwords, JWTs, and invitation tokens are never logged.
 
+Before production, perform one provider smoke test with a real test mailbox:
+
+1. Configure the provider variables above and restart the backend.
+2. As Super Admin, invite a test staff user from User Management.
+3. Confirm the message arrives and verify the result:
+
+```sql
+select event_type, recipient, status, provider_message, created_at
+from email_delivery_log
+order by created_at desc
+limit 10;
+```
+
+The automated backend test covers both the disabled local path and the configured `JavaMailSender` path without requiring provider credentials in Git. Provider smoke testing must use a real mailbox in each deployment environment.
+
 ## Recovery and lockout
 
 - After the configured failed-login threshold, the account is temporarily locked.

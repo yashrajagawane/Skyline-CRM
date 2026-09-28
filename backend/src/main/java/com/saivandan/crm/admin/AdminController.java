@@ -38,7 +38,7 @@ public class AdminController {
 
   @GetMapping("/users")
   public List<Map<String,Object>> users() {
-    return jdbc.queryForList("select u.id,u.full_name as fullName,u.email,u.mobile,u.active,u.last_login_at as lastLoginAt,u.created_at as createdAt, coalesce(string_agg(r.code, ','), '') as roles from users u left join user_roles ur on ur.user_id=u.id left join roles r on r.id=ur.role_id group by u.id order by u.created_at desc");
+    return jdbc.queryForList("select u.id,u.full_name as fullName,u.email,u.mobile,u.active,u.must_change_password as mustChangePassword,u.invitation_status as invitationStatus,u.last_login_at as lastLoginAt,u.created_at as createdAt, coalesce(string_agg(r.code, ','), '') as roles from users u left join user_roles ur on ur.user_id=u.id left join roles r on r.id=ur.role_id group by u.id order by u.created_at desc");
   }
 
   @PostMapping("/users") @Transactional
