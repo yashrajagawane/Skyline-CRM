@@ -33,8 +33,6 @@ The application is designed for a real Indian real-estate operating team. It inc
 - [Quality checks](#quality-checks)
 - [Troubleshooting](#troubleshooting)
 - [Documentation](#documentation)
-- [License and data notice](#license-and-data-notice)
-
 ## Screenshots
 
 <div align="center">
