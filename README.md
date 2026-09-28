@@ -18,8 +18,6 @@ Skyline CRM CRM is an enterprise-ready real-estate CRM and operational ERP built
 The application is designed for a real Indian real-estate operating team. It includes role-specific dashboards, strict API authorization, auditable workflows, PostgreSQL migrations, realistic seed data, report exports, notifications, and deployment configuration for Docker and Render.
 
 ## Table of contents
-
-- [Screenshots](#screenshots)
 - [Live deployment](#live-deployment)
 - [Product capabilities](#product-capabilities)
 - [Role workspaces](#role-workspaces)
