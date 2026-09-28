@@ -27,6 +27,19 @@ services:
       DB_PASSWORD: ${DB_PASSWORD:-sai_vandan_dev}
       JWT_SECRET: ${JWT_SECRET:-change-this-production-secret-to-a-long-random-value}
       FRONTEND_URLS: ${FRONTEND_URLS:-http://localhost:5173,http://localhost}
+      APP_PUBLIC_URL: ${APP_PUBLIC_URL:-http://localhost:5173}
+      INVITATION_EXPIRY_HOURS: ${INVITATION_EXPIRY_HOURS:-24}
+      INVITATION_EXPOSE_LINK: ${INVITATION_EXPOSE_LINK:-false}
+      MAX_LOGIN_ATTEMPTS: ${MAX_LOGIN_ATTEMPTS:-5}
+      ACCOUNT_LOCK_MINUTES: ${ACCOUNT_LOCK_MINUTES:-15}
+      MAIL_ENABLED: ${MAIL_ENABLED:-false}
+      MAIL_HOST: ${MAIL_HOST:-}
+      MAIL_PORT: ${MAIL_PORT:-587}
+      MAIL_USERNAME: ${MAIL_USERNAME:-}
+      MAIL_PASSWORD: ${MAIL_PASSWORD:-}
+      MAIL_FROM: ${MAIL_FROM:-no-reply@your-domain.example}
+      MAIL_AUTH_ENABLED: ${MAIL_AUTH_ENABLED:-true}
+      MAIL_TLS_ENABLED: ${MAIL_TLS_ENABLED:-true}
     ports:
       - "8080:8080"
     depends_on:

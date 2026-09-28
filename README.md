@@ -369,6 +369,7 @@ Confirm the service is a Web Service, not a Background Worker, and that the appl
 
 - [Remaining implementation work and phase status](remaing-work.md)
 - [Environment template](.env.example)
+- [Operations and production runbook](docs/OPERATIONS.md)
 - [Docker Compose stack](docker-compose.yml)
 - PostgreSQL migrations: `backend/src/main/resources/db/migration/`
 

@@ -1,5 +1,6 @@
 const API_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:8080/api/v1';
 export type User = { id: string; fullName: string; email: string; roles: string[] };
+export type AdminUser = { id: string; fullName: string; email: string; mobile: string | null; active: boolean; roles: string; invitationStatus?: string; mustChangePassword?: boolean; lastLoginAt?: string | null; createdAt?: string };
 export type AuthResult = { accessToken: string; refreshToken: string; user: User };
 export type Lead = { id: string; leadNumber: string; customerName: string; mobile: string; source: string; status: string; temperature: string; assignedTo: string | null; createdAt: string };
 export type Page<T> = { content: T[]; totalElements: number; totalPages: number; number: number };
@@ -13,12 +14,24 @@ export type SalesRow = Record<string, string | number | boolean | null>;
 async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
   const token = localStorage.getItem('sv_access_token');
   const response = await fetch(`${API_URL}${path}`, { ...options, headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}), ...options.headers } });
-  if (!response.ok) { const error = await response.json().catch(() => ({})); throw new Error(error.message ?? 'Something went wrong.'); }
+  if (!response.ok) { const error = await response.json().catch(() => ({})); const failure = new Error(error.message ?? 'Something went wrong.') as Error & { status?: number }; failure.status = response.status; throw failure; }
   return response.json() as Promise<T>;
 }
 export const api = {
   login: (email: string, password: string) => request<AuthResult>('/auth/login', { method: 'POST', body: JSON.stringify({ email, password }) }),
   me: () => request<User>('/auth/me'),
+  validateInvitation: (token: string) => request<{ fullName: string; email: string; role: string; expiresAt: string }>(`/auth/invitations/${encodeURIComponent(token)}`),
+  acceptInvitation: (token: string, password: string) => request<{ message: string; email: string }>('/auth/invitations/accept', { method: 'POST', body: JSON.stringify({ token, password }) }),
+  completePasswordChange: (email: string, currentPassword: string, newPassword: string) => request<{ message: string }>('/auth/complete-password-change', { method: 'POST', body: JSON.stringify({ email, currentPassword, newPassword }) }),
+  adminUsers: () => request<AdminUser[]>('/admin/users'),
+  adminRoles: () => request<{ id: string; code: string; name: string }[]>('/admin/roles'),
+  adminAuditLogs: (limit = 100) => request<Record<string, unknown>[]>(`/admin/audit-logs?limit=${limit}`),
+  createAdminUser: (data: Record<string, unknown>) => request<AdminUser & { invitationUrl?: string; invitationExpiresAt?: string }>('/admin/users', { method: 'POST', body: JSON.stringify(data) }),
+  resendAdminInvitation: (id: string) => request<Record<string, unknown>>(`/admin/users/${id}/invite`, { method: 'POST' }),
+  revokeAdminInvitation: (id: string) => request<void>(`/admin/users/${id}/invite/revoke`, { method: 'POST' }),
+  updateAdminUser: (id: string, data: Record<string, unknown>) => request<AdminUser>(`/admin/users/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+  restoreAdminUser: (id: string) => request<void>(`/admin/users/${id}/restore`, { method: 'POST' }),
+  resetAdminPassword: (id: string, password: string) => request<void>(`/admin/users/${id}/reset-password`, { method: 'POST', body: JSON.stringify({ password }) }),
   dashboard: () => request<Dashboard>('/dashboard'),
   workspace: (module: string) => request<Workspace>(`/workspace/${module}`),
   leads: () => request<Page<Lead>>('/leads?size=50'),
@@ -56,6 +69,7 @@ export const api = {
   ,uploadDocument: (bookingId: string, data: Record<string, unknown>) => request<SalesRow>(`/lifecycle/bookings/${bookingId}/documents`, { method: 'POST', body: JSON.stringify(data) })
   ,uploadDocumentContent: async (documentId: string, file: File) => { const form = new FormData(); form.append('file', file); const response = await fetch(`${API_URL}/lifecycle/documents/${documentId}/content`, { method: 'POST', headers: { Authorization: `Bearer ${localStorage.getItem('sv_access_token') ?? ''}` }, body: form }); if (!response.ok) throw new Error('Document upload failed.'); return response.json() as Promise<SalesRow>; }
   ,portalAccess: (email: string, bookingNumber?: string) => request<{ portalToken: string; expiresAt: string; customer: string }>('/portal/access', { method: 'POST', body: JSON.stringify({ email, bookingNumber: bookingNumber || null }) })
+  ,acceptPortalInvitation: (token: string) => request<{ portalToken: string; expiresAt: string; customer: string }>('/portal/invitations/accept', { method: 'POST', body: JSON.stringify({ token }) })
   ,portalMe: (token: string) => request<Record<string, unknown>>('/portal/me', { headers: { 'X-Portal-Token': token } })
   ,portalTicket: (token: string, data: Record<string, unknown>) => request<SalesRow>('/portal/tickets', { method: 'POST', headers: { 'X-Portal-Token': token }, body: JSON.stringify(data) })
   ,verifyDocument: (documentId: string, status: string, reason = '') => request<SalesRow>(`/lifecycle/documents/${documentId}/verify`, { method: 'PATCH', body: JSON.stringify({ status, reason }) })

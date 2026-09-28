@@ -15,6 +15,23 @@ spring:
   flyway:
     enabled: true
     locations: classpath:/db/migration/
+  mail:
+    host: ${MAIL_HOST:}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME:}
+    password: ${MAIL_PASSWORD:}
+    properties:
+      mail.smtp.auth: ${MAIL_AUTH_ENABLED:true}
+      mail.smtp.starttls.enable: ${MAIL_TLS_ENABLED:true}
+      mail.smtp.connectiontimeout: ${MAIL_CONNECTION_TIMEOUT_MS:5000}
+      mail.smtp.timeout: ${MAIL_TIMEOUT_MS:5000}
+      mail.smtp.writetimeout: ${MAIL_WRITE_TIMEOUT_MS:5000}
+  jwt:
+    secret: ${JWT_SECRET:development-only-secret-change-this-to-at-least-32-bytes}
+    access-token-minutes: 30
+    refresh-token-days: 14
+  cors:
+    allowed-origins: ${FRONTEND_URLS:http://localhost:5173,http://127.0.0.1:5173,http://localhost:5174,http://127.0.0.1:5174}
   profiles:
     active: ${SPRING_PROFILES_ACTIVE:prod}
 server:
@@ -22,13 +39,21 @@ server:
   servlet:
     context-path: /api/v1
 app:
-  jwt:
-    secret: ${JWT_SECRET:development-only-secret-change-this-to-at-least-32-bytes}
-    access-token-minutes: 30
-    refresh-token-days: 14
-  cors:
-    allowed-origins: ${FRONTEND_URLS:http://localhost:5173,http://127.0.0.1:5173,http://localhost:5174,http://127.0.0.1:5174}
+  public-url: ${APP_PUBLIC_URL:http://localhost:5173}
+  invitation:
+    expiry-hours: ${INVITATION_EXPIRY_HOURS:24}
+    expose-link: ${INVITATION_EXPOSE_LINK:false}
+  security:
+    max-login-attempts: ${MAX_LOGIN_ATTEMPTS:5}
+    account-lock-minutes: ${ACCOUNT_LOCK_MINUTES:15}
+  email:
+    enabled: ${MAIL_ENABLED:false}
+    from: ${MAIL_FROM:no-reply@skyline.local}
+
 management:
+  health:
+    mail:
+      enabled: ${MAIL_ENABLED:false}
   endpoints:
     web:
       exposure:
