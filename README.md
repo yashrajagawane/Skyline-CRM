@@ -9,7 +9,7 @@
 [![React](https://img.shields.io/badge/React-TypeScript-61DAFB?style=flat-square&logo=react&logoColor=black)](https://react.dev/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-4169E1?style=flat-square&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
 
-**[Web application](https://sai-vandan-web.onrender.com)** · **[API health](https://sai-vandan-api.onrender.com/api/v1/actuator/health)** · **[Swagger UI](https://sai-vandan-api.onrender.com/api/v1/swagger-ui.html)** · **[Screenshots](#screenshots)**
+**[Web application](https://sai-vandan-web.onrender.com)** · **[API health](https://sai-vandan-api.onrender.com/api/v1/actuator/health)** · **[Swagger UI](https://sai-vandan-api.onrender.com/api/v1/swagger-ui.html)** · 
 
 </div>
 
